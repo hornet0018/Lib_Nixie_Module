@@ -58,3 +58,36 @@ class NixieModule_IN_12
 
     void write8(uint8_t addr, uint8_t d);
 };
+
+class NixieModule_IN_14
+{
+  public:
+    NixieModule_IN_14(uint8_t i2caddr = 0x4F);
+    void init();
+    void reset();
+    void setPWMFreq(float freq);
+    void setPWM(uint8_t num, uint16_t on, uint16_t off);
+    void setOffset(uint16_t off);
+    void setBrightness(float b);
+    void setTransitionMode(uint8_t tmode);
+    void setNumber(uint8_t newNum, uint16_t tStep);
+    void update();
+    void blank();
+    uint8_t read8(uint8_t addr);
+    void doTransition(uint8_t num, float b);
+    uint8_t mapNumToPin(uint8_t num);
+
+  private:
+    uint8_t _mode;
+    uint8_t _i2caddr;
+    uint8_t _num;
+    uint8_t _newNum;
+    uint8_t _step;
+    uint8_t _stepCount;
+    uint8_t _isTran;
+    uint16_t _offset;
+
+    float _brightness;
+
+    void write8(uint8_t addr, uint8_t d);
+};
