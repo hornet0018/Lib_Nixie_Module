@@ -103,9 +103,9 @@ void NixieModule_IN_12::update(){
   if(_isTran && _stepCount < _step){
     if(_mode == TMODE_FADE){
       if(_step > 0 && _num != _newNum){
-        float b = (float)(_stepCount + 1) / (float)(_step) * _brightness;
-        doTransition(_num, 1.0 - b);
-        doTransition(_newNum, b);
+        float b = (float)(_stepCount + 1) / (float)(_step);
+        doTransition(_num, (1.0 - b) * _brightness);
+        doTransition(_newNum, b * _brightness);
       }
       else{
         _isTran = 0;
@@ -172,7 +172,7 @@ void NixieModule_IN_14::init(void){
   setPWMFreq(1000);
   _brightness = 1.0;
   setNumber(0, 0);
-  for (uint8_t i = 0; i < 11; i++) {
+  for (uint8_t i = 0; i < 10; i++) {
     setPWM(i, 0, 0);
   }
 }
@@ -222,17 +222,19 @@ void NixieModule_IN_14::setBrightness(float b){
 
 // Set active number and transition step
 void NixieModule_IN_14::setNumber(uint8_t newNum, uint16_t step){
+  uint8_t n = mapNumToPin(newNum);
   _step = step;
   _stepCount = 0;
   _num = _newNum;
-  _newNum = newNum;
+  _newNum = n;
   _isTran = 1;
+
 }
 
 void NixieModule_IN_14::setTransitionMode(uint8_t tmode){
   _mode = tmode;
 
-  for (uint8_t i = 0; i < 11; i++) {
+  for (uint8_t i = 0; i < 10; i++) {
     setPWM(i, 0, 0);
   }
   _num = 0;
@@ -242,9 +244,9 @@ void NixieModule_IN_14::update(){
   if(_isTran && _stepCount < _step){
     if(_mode == TMODE_FADE){
       if(_step > 0 && _num != _newNum){
-        float b = (float)(_stepCount + 1) / (float)(_step) * _brightness;
-        doTransition(_num, 1.0 - b);
-        doTransition(_newNum, b);
+        float b = (float)(_stepCount + 1) / (float)(_step);
+        doTransition(_num, (1.0 - b) * _brightness);
+        doTransition(_newNum, b * _brightness);
       }
       else{
         _isTran = 0;
@@ -252,8 +254,8 @@ void NixieModule_IN_14::update(){
     }
     else if(_mode == TMODE_SHUFFLE){
       doTransition(_num, 0);
-      uint8_t prev = (_stepCount - 1) % 10;
-      uint8_t now = _stepCount % 10;
+      uint8_t prev = mapNumToPin((_stepCount - 1) % 10);
+      uint8_t now = mapNumToPin(_stepCount % 10);
 
       if (_stepCount < _step - 1) {
         doTransition(prev, 0);
@@ -300,4 +302,11 @@ void NixieModule_IN_14::write8(uint8_t addr, uint8_t d){
   Wire.write(addr);
   Wire.write(d);
   Wire.endTransmission();
+}
+
+uint8_t NixieModule_IN_14::mapNumToPin(uint8_t num){
+  uint8_t n = 11 - num % 10;
+  if(num == 1) n = 0;
+  if(num == 0) n = 1;
+  return n;
 }

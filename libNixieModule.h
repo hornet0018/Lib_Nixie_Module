@@ -42,6 +42,7 @@ class NixieModule_IN_12
     void blank();
     uint8_t read8(uint8_t addr);
     void doTransition(uint8_t num, float b);
+    void write8(uint8_t addr, uint8_t d);
     uint8_t mapNumToPin(uint8_t num);
 
   private:
@@ -56,7 +57,6 @@ class NixieModule_IN_12
 
     float _brightness;
 
-    void write8(uint8_t addr, uint8_t d);
 };
 
 class NixieModule_IN_14
@@ -75,6 +75,7 @@ class NixieModule_IN_14
     void blank();
     uint8_t read8(uint8_t addr);
     void doTransition(uint8_t num, float b);
+    void write8(uint8_t addr, uint8_t d);
     uint8_t mapNumToPin(uint8_t num);
 
   private:
@@ -89,5 +90,4 @@ class NixieModule_IN_14
 
     float _brightness;
 
-    void write8(uint8_t addr, uint8_t d);
 };
