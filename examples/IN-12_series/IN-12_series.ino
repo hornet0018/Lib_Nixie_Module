@@ -2,7 +2,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <Wire.h>
 
-#define ADDR0 0x4E
+#define ADDR0 0x4D
 #define ADDR1 0x4C
 #define PIN_LED 5
 

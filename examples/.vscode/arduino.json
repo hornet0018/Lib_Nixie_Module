@@ -1,0 +1,6 @@
+{
+    "port": "COM6",
+    "board": "espressif:esp32:nodemcu-32s",
+    "configuration": "FlashFreq=80,UploadSpeed=921600",
+    "sketch": "IN-12_series\\IN-12_series.ino"
+}

@@ -92,11 +92,6 @@ void NixieModule_IN_12::setNumber(uint8_t newNum, uint16_t step){
 
 void NixieModule_IN_12::setTransitionMode(uint8_t tmode){
   _mode = tmode;
-
-  for (uint8_t i = 0; i < 11; i++) {
-    setPWM(i, 0, 0);
-  }
-  _num = 0;
 }
 
 void NixieModule_IN_12::update(){
@@ -140,7 +135,14 @@ void NixieModule_IN_12::update(){
   }
   else{
     _isTran = 0;
+    _num = _newNum;
   }
+
+  if (_stepCount == _step)
+  {
+    _num = _newNum;
+  }
+  
 }
 
 uint8_t NixieModule_IN_12::read8(uint8_t addr){
