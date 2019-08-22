@@ -2,7 +2,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <Wire.h>
 
-#define ADDR0 0x4E
+#define ADDR0 0x4F
 #define PIN_LED 5
 
 NixieModule_IN_12 nix = NixieModule_IN_12(ADDR0);
